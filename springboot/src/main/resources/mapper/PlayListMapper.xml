@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PlayListMapper">
+
+    <insert id="insert" parameterType="com.example.entity.PlayList">
+        insert into `play_list`
+            (`user_id`,`title`,`path`,`describe`,`create_time`)
+            values (#{userId},#{title},#{path},#{describe},#{createTime})
+    </insert>
+
+</mapper>

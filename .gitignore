@@ -1,0 +1,11 @@
+.idea/                   # IDEA 编辑器配置
+.vscode/                 # VSCode 编辑器配置
+
+vue-project/node_modules/
+
+springboot/target/
+springboot/.idea/
+
+springboot/img/
+springboot/cover/
+springboot/music/

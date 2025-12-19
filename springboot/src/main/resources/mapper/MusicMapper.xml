@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MusicMapper">
+
+    <insert id="insert" parameterType="com.example.entity.Music">
+        insert into `music` (title,path,singer,coverPath,duration,upload_time) values
+        (#{title},#{path},#{singer},#{coverPath},#{duration},#{uploadTime})
+    </insert>
+
+    <select id="selectAll" resultType="com.example.entity.Music">
+        select * from `music`
+    </select>
+
+    <select id="selectAllWithUserId" resultType="com.example.vo.MusicVo">
+        SELECT
+            m.*,
+            CASE
+                WHEN #{userId} IS NULL THEN FALSE
+                WHEN lm.user_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+                END AS isLiked
+        FROM music m
+                 LEFT JOIN liked_music lm
+                           ON m.id = lm.music_id
+                               AND lm.user_id = #{userId}
+
+    </select>
+
+
+    <update id="updateById" parameterType="com.example.entity.Music">
+        update `music` set title=#{title},path=#{path},singer=#{singer},coverPath=#{coverPath},duration=#{duration}
+        where id=#{id}
+    </update>
+</mapper>

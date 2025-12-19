@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.RecentlyPlayedMapper">
+
+    <select id="selectByUserId" resultType="com.example.vo.MusicVo">
+        SELECT
+            m.id           AS musicId,
+            m.title,
+            m.path,
+            m.singer,
+            m.coverPath,
+            m.duration,
+            rp.latest_play AS playTime,
+            CASE
+                WHEN lm.user_id IS NULL THEN FALSE
+                ELSE TRUE
+                END AS isLiked
+        FROM (
+                 SELECT music_id,
+                        MAX(play_time) AS latest_play
+                 FROM recently_played
+                 WHERE user_id = #{userId}
+                 GROUP BY music_id
+             ) rp
+                 JOIN music m
+                      ON rp.music_id = m.id
+                 LEFT JOIN liked_music lm
+                           ON m.id = lm.music_id
+                               AND lm.user_id = #{userId}
+        ORDER BY rp.latest_play DESC;
+
+
+
+    </select>
+</mapper>
